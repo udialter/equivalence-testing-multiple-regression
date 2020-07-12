@@ -1,20 +1,9 @@
----
-title: "New sim"
-author: "Udi Alter"
-date: "20/06/2020"
-output:
-  html_document:
-    df_print: paged
----
+New sim
+================
+Udi Alter
+20/06/2020
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(magrittr)
-library(simglm)
-```
-
-
-```{r}
+``` r
 # universal/general pre-settings
 alpha <- .05 # Type I error rate
 nsim <- 5000 # number of replications
@@ -36,12 +25,9 @@ colnames(results)<-c('DB.b1', 'DB.b2', 'DB.b3', 'DB.b4', 'DB.b5', 'TOST.b1', 'TO
 final <- matrix(data = 0, nrow =6, ncol = 15) #number of tests concluding lack of association
 colnames(final)<-c('DB.b1', 'DB.b2', 'DB.b3', 'DB.b4', 'DB.b5', 'TOST.b1', 'TOST.b2', 'TOST.b3', 'TOST.b4', 'TOST.b5', 'AH.b1', 'AH.b2', 'AH.b3', 'AH.b4', 'AH.b5')
 rownames(final) <- c("n = 50", "n = 75", "n = 100", "n = 250", "n = 500", "n = 1000")
-
 ```
 
-```{r}
-
-
+``` r
 simulate_me <- function(N)  { #begin function
 
   for(i in 1:nsim) {  # for each of the 5000 replications, perform:
@@ -83,6 +69,7 @@ simulate_me <- function(N)  { #begin function
                                    ifelse(p1 < alpha & p2 < alpha, results[1,b+5] <-results[1,b+5]+1, results[1,b+5] <- results[1,b+5])
             
                                    ## Anderson Hauck procedure
+                                   #tah <- (betas[b]-.5*((-delta)+delta))/(berror[b])
                                    tah <- model$statistic[b+1]
                                    pah <- pt((abs(betas[b])-delta)/(sqrt(berror[b]^2)),df) - pt((-abs(betas[b])-delta)/(sqrt(berror[b]^2) ), df)
                                    pval[i,b+15] <- pah
@@ -95,10 +82,11 @@ simulate_me <- function(N)  { #begin function
   return(results/nsim)
 
 } # end of function
-
 ```
+
 # looping the function across all sample size conditions
-```{r}
+
+``` r
 sampsizes <- c(50, 75, 100, 250, 500, 1000)
 
 for(n in seq_along(sampsizes)) {
@@ -106,7 +94,19 @@ for(n in seq_along(sampsizes)) {
                                 }
 
 final
-
 ```
 
-
+    ##           DB.b1  DB.b2  DB.b3  DB.b4  DB.b5 TOST.b1 TOST.b2 TOST.b3 TOST.b4
+    ## n = 50   0.9506 0.9350 0.9018 0.8362 0.7516  0.0000  0.0000  0.0000  0.0000
+    ## n = 75   0.9520 0.9274 0.8712 0.7570 0.6142  0.0000  0.0000  0.0004  0.0002
+    ## n = 100  0.9480 0.9232 0.8334 0.6914 0.5146  0.0062  0.0072  0.0040  0.0026
+    ## n = 250  0.9452 0.8824 0.6540 0.3600 0.1204  0.5026  0.3956  0.1856  0.0514
+    ## n = 500  0.9484 0.8024 0.3932 0.0860 0.0054  0.9028  0.7150  0.2910  0.0474
+    ## n = 1000 0.9500 0.6454 0.1188 0.0034 0.0000  0.9972  0.9336  0.4792  0.0564
+    ##          TOST.b5  AH.b1  AH.b2  AH.b3  AH.b4  AH.b5
+    ## n = 50    0.0000 0.0834 0.0742 0.0708 0.0538 0.0360
+    ## n = 75    0.0002 0.1052 0.0988 0.0798 0.0466 0.0284
+    ## n = 100   0.0012 0.1510 0.1324 0.0910 0.0528 0.0218
+    ## n = 250   0.0076 0.5112 0.4062 0.1896 0.0524 0.0080
+    ## n = 500   0.0026 0.9028 0.7150 0.2910 0.0474 0.0026
+    ## n = 1000  0.0008 0.9972 0.9336 0.4792 0.0564 0.0008
