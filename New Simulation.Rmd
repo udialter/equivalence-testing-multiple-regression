@@ -2,9 +2,7 @@
 title: "New sim"
 author: "Udi Alter"
 date: "20/06/2020"
-output:
-  html_document:
-    df_print: paged
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
