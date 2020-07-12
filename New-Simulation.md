@@ -69,7 +69,6 @@ simulate_me <- function(N)  { #begin function
                                    ifelse(p1 < alpha & p2 < alpha, results[1,b+5] <-results[1,b+5]+1, results[1,b+5] <- results[1,b+5])
             
                                    ## Anderson Hauck procedure
-                                   #tah <- (betas[b]-.5*((-delta)+delta))/(berror[b])
                                    tah <- model$statistic[b+1]
                                    pah <- pt((abs(betas[b])-delta)/(sqrt(berror[b]^2)),df) - pt((-abs(betas[b])-delta)/(sqrt(berror[b]^2) ), df)
                                    pval[i,b+15] <- pah
