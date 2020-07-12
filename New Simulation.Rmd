@@ -20,7 +20,7 @@ alpha <- .05 # Type I error rate
 nsim <- 5000 # number of replications
 delta <-.15 # SESOI
 
-# preparing empty place-holder for later use in the function
+# preparing empty place-holders for later use in the function
 betas <- vector(mode = "double", length = 5) # will hold beta weight values
 berror <- vector(mode = "double", length = 5) # will hold standard error for each beta 
 
@@ -37,10 +37,6 @@ final <- matrix(data = 0, nrow =6, ncol = 15) #number of tests concluding lack o
 colnames(final)<-c('DB.b1', 'DB.b2', 'DB.b3', 'DB.b4', 'DB.b5', 'TOST.b1', 'TOST.b2', 'TOST.b3', 'TOST.b4', 'TOST.b5', 'AH.b1', 'AH.b2', 'AH.b3', 'AH.b4', 'AH.b5')
 rownames(final) <- c("n = 50", "n = 75", "n = 100", "n = 250", "n = 500", "n = 1000")
 
-```
-
-```{r}
-#sample <- c(50, 75, 100, 250, 500, 1000)
 ```
 
 ```{r}
@@ -114,4 +110,4 @@ final
 
 ```
 
-Note: Thesis proposal uses the standard normal for the AH but your code is using the t distribution version. If you want to check to see how the results change from the t to z distribution, you can replace pt with pnorm on line 92.
+
