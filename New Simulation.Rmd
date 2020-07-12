@@ -2,9 +2,7 @@
 title: "New sim"
 author: "Udi Alter"
 date: "20/06/2020"
-output:
-  word_document: default
-  html_document: default
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
