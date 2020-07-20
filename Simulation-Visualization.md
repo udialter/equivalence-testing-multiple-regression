@@ -56,11 +56,27 @@ View(incorrectLOA)
 
 ``` r
 ggplot(data = correctLOA) + 
+  geom_bar(mapping = aes(x = `sample size`, y= `LOA conclusion rate`, fill = `test type`),stat = "identity", position = "dodge")+ 
+  facet_wrap(~`effect size`)+theme_minimal()+labs(y="Rate of Correct LOA Conclusions", x = "Sample Size")
+```
+
+![](Simulation-Visualization_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+``` r
+ggplot(data = incorrectLOA) + 
+  geom_bar(mapping = aes(x = `sample size`, y= `LOA conclusion rate`, fill = `test type`),stat = "identity", position = "dodge")+ 
+  facet_grid(~`effect size`)+theme_minimal()+labs(y="Rate of Incorrect LOA Conclusions", x = "Sample Size")
+```
+
+![](Simulation-Visualization_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+``` r
+ggplot(data = correctLOA) + 
   geom_bar(mapping = aes(x = `sample size`, y= `LOA conclusion rate`, fill = `effect size`),stat = "identity", position = "dodge")+ 
   facet_wrap(~`test type`, nrow = 3)+theme_minimal()+labs(y="Rate of Correct LOA Conclusions", x = "Sample Size")
 ```
 
-![](Simulation-Visualization_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](Simulation-Visualization_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 ggplot(data = incorrectLOA) + 
@@ -68,4 +84,4 @@ ggplot(data = incorrectLOA) +
   facet_wrap(~`test type`, nrow = 3)+theme_minimal()+labs(y="Rate of Incorrect LOA Conclusions", x = "Sample Size")
 ```
 
-![](Simulation-Visualization_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](Simulation-Visualization_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
