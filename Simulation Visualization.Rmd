@@ -66,7 +66,17 @@ View(incorrectLOA)
 
 ```
 
+```{r}
+ggplot(data = correctLOA) + 
+  geom_bar(mapping = aes(x = `sample size`, y= `LOA conclusion rate`, fill = `test type`),stat = "identity", position = "dodge")+ 
+  facet_wrap(~`effect size`)+theme_minimal()
 
+```
+```{r}
+ggplot(data = incorrectLOA) + 
+  geom_bar(mapping = aes(x = `sample size`, y= `LOA conclusion rate`, fill = `test type`),stat = "identity", position = "dodge")+ 
+  facet_grid(~`effect size`)+theme_minimal()
+```
 
 ```{r}
 ggplot(data = correctLOA) + 
