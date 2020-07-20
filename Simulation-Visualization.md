@@ -63,12 +63,33 @@ ggplot(data = correctLOA) +
 ![](Simulation-Visualization_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ``` r
+ggplot(data = correctLOA) + 
+  geom_step(aes(x = `sample size`, y= `LOA conclusion rate`, color = `test type`))
+```
+
+![](Simulation-Visualization_files/figure-gfm/unnamed-chunk-5-2.png)<!-- -->
+
+``` r
+correctLOA %>%
+ggplot( aes(x =`sample size`, y = `LOA conclusion rate`, group = `test type`, color= `test type`)) + geom_line(alpha= .6,size= 3, position=position_dodge(width=.1))+facet_wrap(~`effect size`)+theme_minimal()+labs(title = "Correctly Concluding Lack of Association by Test, Effect, and Sample Size", y="Rate of Correct LOA Conclusions", x = "Sample Size")
+```
+
+![](Simulation-Visualization_files/figure-gfm/unnamed-chunk-5-3.png)<!-- -->
+
+``` r
 ggplot(data = incorrectLOA) + 
   geom_bar(mapping = aes(x = `sample size`, y= `LOA conclusion rate`, fill = `test type`),stat = "identity", position = "dodge")+ 
   facet_grid(~`effect size`)+theme_minimal()+labs(y="Rate of Incorrect LOA Conclusions", x = "Sample Size")
 ```
 
 ![](Simulation-Visualization_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+``` r
+incorrectLOA %>%
+ggplot( aes(x =`sample size`, y = `LOA conclusion rate`, group = `test type`, color= `test type`)) + geom_line(alpha= .6,size= 3, position=position_dodge(width=.1))+facet_wrap(~`effect size`)+theme_minimal()+labs(title = "Incorrectly Concluding Lack of Association by Test, Effect, and Sample Size", y="Rate of Incorrect LOA Conclusions", x = "Sample Size")
+```
+
+![](Simulation-Visualization_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
 
 ``` r
 ggplot(data = correctLOA) + 
