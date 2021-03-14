@@ -1,5 +1,5 @@
 ---
-title: "Thesis Function"
+title: "equiv.reg Function"
 author: "Udi Alter"
 output:
   word_document: default
