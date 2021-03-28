@@ -1,0 +1,195 @@
+---
+title: "Equivalence testing in multiple regression, R function (data not available)"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+library(haven)
+library(psych)
+library(car)
+library(psychometric)
+library(QuantPsyc)
+library(lsr) 
+library(apaTables)
+library(dplyr)
+library(broom)
+```
+
+```{r}
+#OCD <- read_sav("OCD and MW (Seli et al., 2017).sav") # Uploading data
+#ocd <- OCD # duplicating dataset for manipulation 
+#colnames(ocd) <- c("ID", "sample", "age","gender", "hand", "MWS", "MWD", 'BSCS', 'ocd_cont', 'ocd_resp', 'ocd_unacpthts', 'ocd_symm')
+
+# OCD responsibility for harm and mistakes
+#resp<-lm(ocd_resp~MWD+MWS, data=ocd)
+#cont<-lm(ocd_cont~MWD+MWS, data=ocd)
+#summary(resp)
+#confint(resp)
+#lm.beta(resp) 
+
+#b <- 0.04709
+#p <- 2
+#n <- 2636
+#se <- .04604
+#alpha <- .05
+```
+
+
+```{r function}
+
+reg.equiv.dna <- function(b, se, p, n, delta, alpha=.05, plot=TRUE, test="TOST", std=TRUE) {
+          # b = regression coefficient, std or raw
+          # se = std. error associated with the point estimate, b
+          # p = no. of predictors in the model 
+          # n = sample size
+          # delta = SESOI, std or raw
+          
+          df <- n-1-p
+          l.ci90 <- b+qt(.1/2,df, lower.tail = T)*se
+          u.ci90 <- b+qt(.1/2,df, lower.tail = F)*se
+          l.ci <- b+qt(alpha/2,df, lower.tail = T)*se
+          u.ci <- b+qt(alpha/2,df, lower.tail = F)*se
+          
+          #delta
+          l.delta <- -abs(delta) # lower equivalence interval bound (consider to make it as input in the function)
+          u.delta <- abs(delta) # upper equivalence interval bound
+  
+          # RESULTS SECTION
+              # standardized section
+              if (std==TRUE) {
+                        
+                              if (test=="AH") {     
+                                                # AH
+                                                t.ah <- b/se
+                                                p.ah <- pt((abs(b)-delta)/(sqrt(se^2)),df) - pt((-abs(b)-delta)/(sqrt(se^2) ), df)
+           
+                                                cat("standardized regression coefficient is ","\n",
+                                                "β = ",b," ,", (1-alpha)*100, "% CI [",l.ci,",",u.ci,"]" ,"\n", 
+                                                "associated std. error = ", se, "\n", "\n",
+                                                "std. equivalence interval =","[",l.delta,",",u.delta,"]", "\n",
+                                                "\n",
+                                                "Anderson-Hauck (AH) Equivalence Test Results:", "\n",
+                                                "-------------------------------------------------", "\n",
+                                                "t(",df,") = ",t.ah,"\n",
+                                                "p = ",p.ah,"\n",
+                                                ifelse(p.ah < alpha, "AH: Negligible effects concluded" , 'AH: Insufficient evidence for negligible effects'))
+                                    }  else { 
+                                                # TOST
+                                                t1.tost<- (b-(-delta))/(sqrt(se^2)) 
+                                                t2.tost<- (delta-b)/(sqrt(se^2))
+                                                p1.tost<- 1-pt(t1.tost, df) 
+                                                p2.tost<- 1-pt(t2.tost, df)
+                                                
+                                                cat("standardized regression coefficient is ","\n",
+                                                "β = ",b," ,", (1-alpha)*100, "% CI [",l.ci,",",u.ci,"]" ,"\n", 
+                                                "associated std. error = ", se, "\n", "\n",
+                                                "std. equivalence interval =","[",l.delta,",",u.delta,"]", "\n",
+                                                "\n",
+                                                "Two One-Sided Test (TOST) Equivalence Test Results:", "\n",
+                                                "-------------------------------------------------", "\n",
+                                                "t1(",df,") = ",t1.tost,"\n",
+                                                "t2(",df,") = ", t2.tost, "\n",
+                                                "p1 = ",p1.tost,"\n",
+                                                "p2 = ",p2.tost,"\n",
+                                                ifelse(p1.tost < alpha & p2.tost < alpha, 'TOST: Negligible effects concluded', 'TOST: Insufficient evidence for negligible effects'))
+                                              }
+                                                # plot
+                                  if (plot==TRUE) { 
+                                                    plot(NA, axes=F,
+                                                    xlim = c(min(l.ci,l.delta)-max(u.ci-l.ci, u.delta-l.delta)/10, max(u.ci,u.delta)+max(u.ci-l.ci, u.delta-l.delta)/10),
+                                                    ylim = c(0,1),
+                                                    yaxt='n',
+                                                    ylab="",
+                                                    xlab = "Std. Regression Coefficient Estimate", 
+                                                    main = "Symmetric CI Approach \n 90% CI")
+                                                    abline(v =0 , lty = 2, col= "light grey") # vertical line in the middle of the eq. interval, right now it's always 0, can be changed
+                                                    points(x=b, y=.5, pch=8, cex=2) # point at the estimated predictor value
+                                                    abline(v=u.delta, lty=2, col = "red") # mark the upper eq. bound
+                                                    abline(v=l.delta, lty=2, col = "red") # mark the lower eq. bound
+                                                    segments(l.ci90,0.5,u.ci90,0.5, lwd=3) # plotting the 90% CI for the predictor estimate
+                                                    text(u.delta*1.01,.5,"upper equivalence bound",srt=270,pos=3, offset = .5, col = "red") # text for eq. bound line (upper)
+                                                    text(l.delta*1.01,.5,"lower equivalence bound",srt=90,pos=3, offset = .5, col = "red") # text for eq. bound line (lower)
+                                                    text(u.delta*.9,-0.01,u.delta,srt=0,pos=3, offset = .5, col = "red") # writing the eq. interval bound value (upper)
+                                                    text(l.delta*0.88,-.01,l.delta,srt=0,pos=3, offset = .5, col = "red") # writing the eq. interval bound value (lower)
+                                                    text(b,.57,round(b, digits = 3),srt=0) # writing the predictor point estimate value
+                                                    text(b,.57,"β=",srt=0, pos = 2, offset = 1.5) # adding text to indicate above line
+                                                    text(u.ci90,.45,round(u.ci90, digits = 3),pos =1, offset = .1, col = "black") # writing the 90% CI upper limit value for the predictor estimate
+                                                    text(l.ci90,.45,round(l.ci90, digits = 3), pos =1, offset = .1,col = "black") # writing the 90% CI lower limit value for the predictor estimate
+                                                    axis(side=1, pos=0, lwd.ticks=0)
+                                                    }
+              } else {
+                      # unstandardized section  
+                      if (test=="AH") {     
+                      # AH
+                      t.ah <- b/se
+                      p.ah <- pt((abs(b)-delta)/(sqrt(se^2)),df) - pt((-abs(b)-delta)/(sqrt(se^2) ), df)
+    
+                      cat("unstandardized regression coefficient is ", "\n",
+                      "b = ",b," ,", (1-alpha)*100, "% CI [",l.ci,",",u.ci,"]" ,"\n",  
+                      "std. error = ", se, "\n", "\n",
+             
+                      "raw equivalence interval =","[",l.delta,",",u.delta,"]", "\n",
+                      "\n",
+                      "Anderson-Hauck (AH) Equivalence Test Results:", "\n",
+                      "-------------------------------------------------", "\n",
+                      "t(",df,") = ",t.ah,"\n",
+                      "p = ",p.ah,"\n",
+                      ifelse(p.ah < alpha, "AH: Negligible effects concluded" , 'AH: Insufficient evidence for negligible effects'))
+                   }  else { 
+                      # TOST
+                      t1.tost<- (b-(-delta))/(sqrt(se^2)) 
+                      t2.tost<- (delta-b)/(sqrt(se^2))
+                      p1.tost<- 1-pt(t1.tost, df) 
+                      p2.tost<- 1-pt(t2.tost, df)
+      
+                     cat("unstandardized regression coefficient is ","\n",
+                     "b = ",b," ,", (1-alpha)*100, "% CI [",l.ci,",",u.ci,"]" ,"\n",  
+                     "std. error = ", se, "\n", "\n",
+             
+                     "raw equivalence interval =","[",l.delta,",",u.delta,"]", "\n",
+                     "\n",
+                     "Two One-Sided Test (TOST) Equivalence Test Results:", "\n",
+                     "-------------------------------------------------", "\n",
+                     "t1(",df,") = ",t1.tost,"\n",
+                     "t2(",df,") = ", t2.tost, "\n",
+                     "p1 = ",p1.tost,"\n",
+                     "p2 = ",p2.tost,"\n",
+                     ifelse(p1.tost < alpha & p2.tost < alpha, 'TOST: Negligible effects concluded', 'TOST: Insufficient evidence for negligible effects'))
+                    }
+                      # plot
+                      if (plot==TRUE) { 
+                      plot(NA, axes=F,
+                      xlim = c(min(l.ci,l.delta)-max(u.ci-l.ci, u.delta-l.delta)/10, max(u.ci,u.delta)+max(u.ci-l.ci, u.delta-l.delta)/10),
+                      ylim = c(0,1),
+                      yaxt='n',
+                      ylab="",
+                      xlab = "Regression Coefficient Estimate", 
+                      main = "Symmetric CI Approach \n 90% CI")
+                      abline(v =0 , lty = 2, col= "light grey") # vertical line in the middle of the eq. interval, right now it's always 0, can be changed
+                      points(x=b, y=.5, pch=8, cex=2) # point at the estimated predictor value
+                      abline(v=u.delta, lty=2, col = "red") # mark the upper eq. bound
+                      abline(v=l.delta, lty=2, col = "red") # mark the lower eq. bound
+                      segments(l.ci90,0.5,u.ci90,0.5, lwd=3) # plotting the 90% CI for the predictor estimate
+                      text(u.delta*1.01,.5,"upper equivalence bound",srt=270,pos=3, offset = .5, col = "red") # text for eq. bound line (upper)
+                      text(l.delta*1.01,.5,"lower equivalence bound",srt=90,pos=3, offset = .5, col = "red") # text for eq. bound line (lower)
+                      text(u.delta*.9,-0.01,u.delta,srt=0,pos=3, offset = .5, col = "red") # writing the eq. interval bound value (upper)
+                      text(l.delta*0.88,-.01,l.delta,srt=0,pos=3, offset = .5, col = "red") # writing the eq. interval bound value (lower)
+                      text(b,.57,round(b, digits = 3),srt=0) # writing the predictor point estimate value
+                      text(b,.57,"b=",srt=0, pos = 2, offset = 1.5) # adding text to indicate above line
+                      text(u.ci90,.45,round(u.ci90, digits = 3),pos =1, offset = .1, col = "black") # writing the 90% CI upper limit value for the predictor estimate
+                      text(l.ci90,.45,round(l.ci90, digits = 3), pos =1, offset = .1,col = "black") # writing the 90% CI lower limit value for the predictor estimate
+                      axis(side=1, pos=0, lwd.ticks=0)
+                                  }
+                                }     
+                              } # end of function
+
+
+#testing the function
+
+# plug in: b, se, p, n, delta, alpha=.05, plot=TRUE, test="TOST", std=TRUE
+
+reg.equiv.dna(b = -0.008431641,se =0.02106913 ,p =2, n= 2636, delta= .13, alpha = .01)  
+
+
+```
