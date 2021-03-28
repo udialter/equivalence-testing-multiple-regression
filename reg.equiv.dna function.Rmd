@@ -4,38 +4,6 @@ output: html_document
 ---
 
 
-```{r setup, include=FALSE}
-library(haven)
-library(psych)
-library(car)
-library(psychometric)
-library(QuantPsyc)
-library(lsr) 
-library(apaTables)
-library(dplyr)
-library(broom)
-```
-
-```{r}
-#OCD <- read_sav("OCD and MW (Seli et al., 2017).sav") # Uploading data
-#ocd <- OCD # duplicating dataset for manipulation 
-#colnames(ocd) <- c("ID", "sample", "age","gender", "hand", "MWS", "MWD", 'BSCS', 'ocd_cont', 'ocd_resp', 'ocd_unacpthts', 'ocd_symm')
-
-# OCD responsibility for harm and mistakes
-#resp<-lm(ocd_resp~MWD+MWS, data=ocd)
-#cont<-lm(ocd_cont~MWD+MWS, data=ocd)
-#summary(resp)
-#confint(resp)
-#lm.beta(resp) 
-
-#b <- 0.04709
-#p <- 2
-#n <- 2636
-#se <- .04604
-#alpha <- .05
-```
-
-
 ```{r function}
 
 reg.equiv.dna <- function(b, se, p, n, delta, alpha=.05, plot=TRUE, test="TOST", std=TRUE) {
