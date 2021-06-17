@@ -49,7 +49,7 @@ table reported in a published article.
     change, simply indicate the alpha level. E.g., `alpha=.10`
 
 `reg.equiv.fd()` example: ![alt
-text](Figure 4 reg.equiv.fd .png)
+text](https://github.com/udialter/equivalence-testing-multiple-regression/blob/master/Figure%204%20reg.equiv.fd%20.png)
 
 ## `reg.equiv()`: full dataset _not_ required
 
