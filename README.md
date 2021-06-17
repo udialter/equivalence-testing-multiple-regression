@@ -49,7 +49,7 @@ table reported in a published article.
     change, simply indicate the alpha level. E.g., `alpha=.10`
 
 `reg.equiv.fd()` example: ![alt
-text](~/Documents/Master's%20thesis/Figure%204%20reg.equiv.fd%20.png)
+text](Figure 4 reg.equiv.fd .png)
 
 ## `reg.equiv()`: full dataset _not_ required
 
