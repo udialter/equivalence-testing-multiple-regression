@@ -3,7 +3,7 @@
 Equivalence testing can be applied to evaluate whether an observed
 effect from an individual predictor in a multiple regression model is
 small enough to be considered statistically and practically negligible
-([Alter & Counsell, 2021](https://psyarxiv.com/5bv2p/)). For more
+([Alter & Counsell, 2021](https://psyarxiv.com/ugc9e/)). For more
 information, please refer to the [OSF
 page](https://osf.io/w96xe/ "Equivalence Testing for Multiple Regression OSF Page")
 and/or a freely available [preprint on
@@ -110,7 +110,7 @@ can help interpret the results over and above *p* values**.
 
 
 
-## For an in-depth literature review, disucssion, recommendations, and detailed tutorials, please refer to [Alter & Counsell (2021)](https://psyarxiv.com/5bv2p/).
+## For an in-depth literature review, disucssion, recommendations, and detailed tutorials, please refer to [Alter & Counsell (2021)](https://psyarxiv.com/ugc9e/).
 
 
 
