@@ -7,7 +7,7 @@ small enough to be considered statistically and practically negligible
 information, please refer to the [OSF
 page](https://osf.io/w96xe/ "Equivalence Testing for Multiple Regression OSF Page")
 and/or a freely available [preprint on
-PsyArXiv](https://psyarxiv.com/5bv2p/ "PsyArXiv preprint").
+PsyArXiv](https://psyarxiv.com/ugc9e/ "PsyArXiv preprint").
 
 The following functions offer appropriate equivalence-based alternatives
 for concluding negligible effect between a predictor and outcome in
