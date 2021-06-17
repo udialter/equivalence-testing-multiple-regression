@@ -48,8 +48,8 @@ table reported in a published article.
 -   `alpha=` the nominal Type I error rate is set to .05 by default. To
     change, simply indicate the alpha level. E.g., `alpha=.10`
 
-`reg.equiv.fd()` example: ![alt
-text](https://github.com/udialter/equivalence-testing-multiple-regression/blob/master/Figure%204%20reg.equiv.fd%20.png)
+#### `reg.equiv.fd()` example: 
+![alttext](https://github.com/udialter/equivalence-testing-multiple-regression/blob/master/Figure%204%20reg.equiv.fd%20.png)
 
 ## `reg.equiv()`: full dataset _not_ required
 
@@ -80,8 +80,8 @@ text](https://github.com/udialter/equivalence-testing-multiple-regression/blob/m
 -   `alpha=` the nominal Type I error rate is set to .05 by default. To
     change, simply indicate the alpha level. E.g., `alpha=.10`
 
-`reg.equiv()` example: ![alt
-text](~/Documents/Master's%20thesis/Figure%205%20reg.equiv.png)
+#### `reg.equiv()` example: 
+![alttext](~/Documents/Master's%20thesis/Figure%205%20reg.equiv.png)
 
 ### Recommendations for Test Result Interpretation
 
