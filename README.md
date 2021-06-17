@@ -81,7 +81,7 @@ table reported in a published article.
     change, simply indicate the alpha level. E.g., `alpha=.10`
 
 #### `reg.equiv()` example: 
-![alttext](~/Documents/Master's%20thesis/Figure%205%20reg.equiv.png)
+![alttext](https://github.com/udialter/equivalence-testing-multiple-regression/blob/master/Figure%205%20reg.equiv.png)
 
 ### Recommendations for Test Result Interpretation
 
@@ -108,38 +108,46 @@ are from the equivalence bounds; inferring about the proportion and
 position of the confidence band in relation to the equivalence interval
 can help interpret the results over and above *p* values**.
 
+
+
+## For an in-depth literature review, disucssion, recommendations, and detailed tutorials, please refer to [Alter & Counsell (2021)](https://psyarxiv.com/5bv2p/).
+
+
+
+
 #### References
 
-1.  Alter, U., & Counsell, A. (2021, June 17). Equivalence Testing for
-    Multiple Regression. <https://doi.org/10.17605/OSF.IO/W96XE>
+1.  Alter, U., & Counsell, A. (2021, June 17). _Equivalence Testing for
+    Multiple Regression_. <https://doi.org/10.17605/OSF.IO/W96XE>
 2.  Anderson, S., & Hauck, W. W. (1983). A new procedure for testing
     equivalence in comparative bioavailability and other clinical
-    trials. Statistics and Communications-Theory and Methods, 12
+    trials. _Statistics and Communications-Theory and Methods, 12_
     ,2663-2692. <https://doi.org/10.1080/03610928308828634>
-3.  Cumming, G. (2012). Understanding The New Statistics: Effect Sizes,
-    Confidence Intervals, and Meta-Analysis. New York, NY: Taylor &
+3.  Cumming, G. (2012). _Understanding The New Statistics: Effect Sizes,
+    Confidence Intervals, and Meta-Analysis_. New York, NY: Taylor &
     Francis Group, LLC
-4.  Cumming, G. (2014). The New Statistics: Why and How. Psychological
-    Science, 25(1), 7–29. <https://doi.org/10.1177/0956797613504966>
+4.  Cumming, G. (2014). The New Statistics: Why and How. _Psychological
+    Science, 25_(1), 7–29. <https://doi.org/10.1177/0956797613504966>
 5.  Fidler, F., & Loftus, G. (2009). Why figures with error bars should
     replace p values: Some conceptual arguments and empirical
-    demonstrations. Zeitschrift Für Psychologie/Journal of Psychology,
-    217(1), 27-37. <https://doi.org/10.1027/0044-3409.217.1.27>
-6.  Harlow, L.L. (1997). Significance Testing in Introduction and
-    Overview. In L.L. Harlow, S.A. Muliak & J.H. Steiger (Eds.). What If
+    demonstrations. _Zeitschrift Für Psychologie/Journal of Psychology,
+    217_(1), 27-37. <https://doi.org/10.1027/0044-3409.217.1.27>
+6.  Harlow, L.L. (1997). _Significance Testing in Introduction and
+    Overview_. In L.L. Harlow, S.A. Muliak & J.H. Steiger (Eds.). What If
     There Were No Significance Tests? (pp.1-17). Mahwah, NJ, USA:
     Lawrence Erlbaum.
 7.  Hauck, W. W., & Anderson, S. (1984). A new statistical procedure for
     testing equivalence in two-group comparative bioavailability trials.
-    Journal of Pharmacokinetics and Biopharmaceutics, 12(1), 83-91.
+    _Journal of Pharmacokinetics and Biopharmaceutics, 12_(1), 83-91.
     <https://doi.org/10.1007/BF01063612>
-8.  Kirk, R. E. (2003). The importance of effect magnitude. In S. F.
+8.  Kirk, R. E. (2003). _The importance of effect magnitude_. In S. F.
     Davis (Ed.), Handbook of research methods in experimental psychology
     (pp. 83–105). Malden, MA: Blackwell.
 9.  Lee, D. K. (2016). Alternatives to P value: Confidence interval and
-    effect size. Korean Journal of Anesthesiology, 69(6), 555-562.
+    effect size. _Korean Journal of Anesthesiology, 69_(6), 555-562.
     <https://doi.org/10.4097/kjae.2016.69.6.555>
 10. Schuirmann, D. J. (1987). A comparison of the two one-sided tests
     procedure and the power approach for assessing the equivalence of
-    average bioavailability. Journal of Pharmacokinetics and
-    Biopharmaceutics, 15 ,657-680. <https://doi.org/10.1007/BF01068419>
+    average bioavailability. _Journal of Pharmacokinetics and
+    Biopharmaceutics, 15_, 657-680. <https://doi.org/10.1007/BF01068419>
+11. Seli, P., Risko, E. F., Purdon, C., & Smilek, D. (2017). Intrusive thoughts: Linking spontaneous mind wandering and OCD symptomatology. _Psychological Research, 81_(2), 392-398. https://doi.org/10.1007/s00426-016-0756-3![image]
