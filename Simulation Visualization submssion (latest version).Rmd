@@ -1,0 +1,131 @@
+---
+title: "New sim with visualizations"
+author: "Udi Alter"
+date: "20/06/2020"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+
+library(magrittr)
+library(simglm)
+library(tidyverse)
+library(haven)
+library(hrbrthemes)
+
+```
+
+
+
+```{r}
+# Uploading raw data
+simresults <- readxl::read_xlsx("simulation results2.xlsx", col_names = TRUE)
+View(simresults)
+
+
+simresults$approach <- factor(simresults$approach, levels = c("difference based", "equivalence based"), ordered = FALSE)
+simresults$`test type` <- factor(simresults$`test type`, levels = c("DB", "TOST", "AH"), ordered = TRUE)
+simresults$predictor <- factor(simresults$predictor, levels = c(1, 2, 3, 4, 5), ordered = TRUE)
+simresults$`effect size` <- factor(simresults$`effect size`, levels = c(0, 0.05, 0.1, 0.15, 0.2), ordered = TRUE)
+#simresults$`sample size` <- factor(simresults$`sample size`, levels = c(50, 75, 100, 250, 500, 1000), ordered = TRUE)
+#simresults$`sample size` <- factor(simresults$`sample size`, levels = seq(from = 50, to = 1000, by = 25))
+simresults$`sample size` <- as.double(simresults$`sample size`)
+
+str(simresults)
+simresults$`sample size`
+
+
+```
+
+
+
+
+```{r}
+# using subset correct vs. incorrect LOA conclusions
+correctLOA <- subset(simresults, simresults$`effect size` != "0.15" & simresults$`effect size` != "0.2") 
+
+View(correctLOA)
+
+#cor <- na.omit(correctLOA)
+
+incorrectLOA <- subset(simresults, simresults$`effect size` == 0.15 | simresults$`effect size` == 0.2) 
+
+View(incorrectLOA)
+#x <- seq(from = 50, to = 1000, by = 25)
+```
+
+
+INCORRECT LOA GRAPH
+```{r}
+beta <- "beta"
+
+incorrectLOA$label <- paste("β =",as.character(incorrectLOA$`effect size`))
+
+# Nice
+na.omit(incorrectLOA) %>%
+ggplot(aes(x = `sample size`, y = `LOA conclusion rate`, group = `test type`, color = `test type`, linetype=`test type`)) + 
+  geom_line(size= 1)+ 
+  scale_colour_manual(values=c(DB='grey85',TOST="grey50",AH="grey0"))+
+  scale_linetype_manual(values = c('solid', 'dashed', 'dotted'))+
+  facet_wrap(~label)+
+  theme_minimal()+
+  labs(title = "Incorrectly Concluding Lack of Association by Test, Effect, and Sample Size", y="Rate of Incorrect LOA Conclusions", x = "Sample Size")+ 
+  scale_x_continuous(limits=c(50, 1001), breaks = seq(25, 1001, 25), expand = c(0, 0)) + 
+  scale_y_continuous(limits=c(-0.1,1), breaks=seq(0, 1, .05), expand = c(0, 0))+theme(axis.text.x=element_text(size=5, angle=90))
+
+# Better
+na.omit(incorrectLOA) %>%
+ggplot(aes(x = `sample size`, y = `LOA conclusion rate`, group = `test type`, color = `test type`, linetype=`test type`)) + 
+  geom_line(size= 1.25)+ 
+  scale_colour_manual(values=c(DB='grey75',TOST="grey48",AH="grey0"))+
+  scale_linetype_manual(values = c('solid', 'dashed', 'dotted'))+
+  #scale_size_manual(values = c(DB=2, TOST=.5, AH=10))+
+  facet_wrap(~label, dir = "v")+
+  theme_minimal()+
+  labs(title = "Incorrectly Concluding Lack of Association by Test, Effect, and Sample Size", y="Rate of Incorrect LOA Conclusions", x = "Sample Size")+ 
+  scale_x_continuous( limits=c(50, 1001), breaks = seq(50, 1001, 25), expand = c(0, 0.5)) + 
+  scale_y_continuous(limits=c(0,1), breaks=seq(-0.2, 1, .1), expand = c(0, 0))+theme(axis.text.x=element_text(size=7, angle=45),axis.text.y=element_text(size=7))
+ggsave("incorrect.png", width = 20, height=15, units = "cm")
+
+
+
+```
+CORRECT LOA GRAPH
+```{r}
+
+
+# Better
+correctLOA$label <- paste("β =",as.character(correctLOA$`effect size`))
+
+
+na.omit(correctLOA) %>%
+ggplot(aes(x = `sample size`, y = `LOA conclusion rate`, group = `test type`, color = `test type`, linetype=`test type`)) + 
+  geom_line(size= 1)+ 
+  scale_colour_manual(values=c(DB='grey75',TOST="grey50",AH="grey0"))+
+  scale_linetype_manual(values = c('solid', 'dashed', 'dotted'))+
+  #scale_size_manual(values = c(DB=2, TOST=.5, AH=10))+
+  facet_wrap(~label, dir = "v")+
+  theme_minimal()+
+  labs(title = "Correctly Concluding Lack of Association by Test, Effect, and Sample Size", y="Rate of Correct LOA Conclusions", x = "Sample Size")+ 
+  scale_x_continuous( limits=c(50, 1001), breaks = seq(50, 1001, 25), expand = c(0, 0.5)) + 
+  scale_y_continuous(limits=c(0,1), breaks=seq(0, 1, .1), expand = c(0, 0))+theme(axis.text.x=element_text(size=7, angle=45),axis.text.y=element_text(size=7))
+ggsave("correct.png", width = 20, height=15, units = "cm")
+
+
+
+```
+
+
+
+
+
+
+```{r}
+# Nice
+na.omit(incorrectLOA) %>%
+ggplot( aes(x =`sample size`, y = `LOA conclusion rate`, group = `test type`, color= `test type`)) + geom_line(alpha= 1,size= 3, position=position_dodge(width=.1))+facet_wrap(~`effect size`)+theme_minimal()+labs(title = "Incorrectly Concluding Lack of Association by Test, Effect, and Sample Size", y="Rate of Incorrect LOA Conclusions", x = "Sample Size")+ scale_x_continuous(limits=c(50, 1001), breaks = seq(50, 1000, 25),
+                     expand = c(0, 0)) + 
+  scale_y_continuous(limits=c(0,1), breaks=seq(0, 1, .25), expand = c(0, 0))+theme(axis.text.x=element_text(size=4, angle=90))
+```
+
+
