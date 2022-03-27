@@ -19,7 +19,7 @@ library(hrbrthemes)
 
 ```{r}
 # Uploading raw data
-simresults <- readxl::read_xlsx("simulation results2.xlsx", col_names = TRUE)
+simresults <- readxl::read_xlsx("simulation results.xlsx", col_names = TRUE)
 View(simresults)
 
 
