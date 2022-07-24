@@ -1,0 +1,83 @@
+---
+title: "Manuscript visualizations"
+author: "Udi Alter"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+library(magrittr)
+library(simglm)
+library(tidyverse)
+library(haven)
+library(hrbrthemes)
+
+```
+
+```{r}
+# Uploading raw data
+simresults <- readxl::read_xlsx("simulation results.xlsx", col_names = TRUE)
+#View(simresults)
+
+
+simresults$approach <- factor(simresults$approach, levels = c("difference based", "equivalence based"), ordered = FALSE)
+simresults$`Test type` <- factor(simresults$`test type`, levels = c("DB", "TOST", "AH"), ordered = TRUE)
+simresults$predictor <- factor(simresults$predictor, levels = c(1, 2, 3, 4, 5), ordered = TRUE)
+simresults$`Effect size` <- factor(simresults$`effect size`, levels = c(0, 0.05, 0.1, 0.15, 0.2), ordered = TRUE)
+simresults$`Sample size` <- factor(simresults$`sample size`, levels = c(50, 75, 100, 250, 500, 1000), ordered = TRUE)
+
+
+#str(simresults)
+
+```
+
+
+```{r}
+# using subset correct vs. incorrect LOA conclusions
+correct.neg <- subset(simresults, simresults$`Effect size` != "0.15" & simresults$`Effect size` != "0.2") 
+
+#View(correct.neg)
+correct.neg$label <- paste("β =",as.character(correct.neg$`Effect size`))
+
+
+
+incorrect.neg <- subset(simresults, simresults$`Effect size` == 0.15 | simresults$`Effect size` == 0.2) 
+
+#View(incorrect.neg)
+
+incorrect.neg$label <- paste("β =",as.character(incorrect.neg$`Effect size`))
+
+```
+
+
+# INCORRECT
+```{r}
+
+
+incorrect.neg %>%
+ggplot( aes(x =`Sample size`, y = `LOA conclusion rate`, group = `Test type`, linetype= `Test type`, colour= `Test type`))+
+  geom_line(size= 1.25)+ 
+  scale_colour_manual(values=c(DB='grey75',TOST="grey48",AH="grey0"))+
+  scale_linetype_manual(values = c('solid', 'dashed', 'dotted'))+
+  #scale_size_manual(values = c(DB=2, TOST=.5, AH=10))+
+  facet_wrap(~label)+
+  theme_minimal()+
+  labs(title = "Incorrectly Concluding Negligible Association by Test, Effect, and Sample Size", y="Rate of Incorrect Negligible Association Conclusions", x = "Sample Size")
+ggsave("incorrect.png", width = 20, height=15, units = "cm")
+
+```
+
+# CORRECT
+```{r}
+
+correct.neg %>%
+ggplot( aes(x =`Sample size`, y = `LOA conclusion rate`, group = `Test type`, color= `Test type`, linetype= `Test type`)) + 
+  geom_line(size= 1.25)+ 
+  scale_colour_manual(values=c(DB='grey75',TOST="grey48",AH="grey0"))+
+  scale_linetype_manual(values = c('solid', 'dashed', 'dotted'))+
+  facet_wrap(~label, dir = "h")+
+  theme_minimal()+
+  labs(title = "Correctly Concluding Negligible Association by Test, Effect, and Sample Size", y="Rate of Correct Negligible Association Conclusions", x = "Sample Size")
+ggsave("correct.png", width = 20, height=15, units = "cm")
+```
